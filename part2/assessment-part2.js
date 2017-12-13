@@ -44,7 +44,14 @@ function noWeakLink() {
     url: '/api/users'
   })
   // CODE HERE...
-
+  .then(response=> {
+    firstUser= response.data[0];
+    return response;
+  })
+  .then(response=> {
+    thirdUser= response.data[2]
+    return response.data[9];
+  })
 }
 
 
@@ -70,10 +77,11 @@ var elephant = {
   name: 'Horton'
 }
 function large() {
-
   return 'My name is ' + this.name + ' and I am very heavy!'
 }
 // CODE HERE...
+const boundToElephant= this.large.bind(elephant);
+boundToElephant();
 
 
 
@@ -88,7 +96,9 @@ function large() {
 // and return the bound function.
 
 // CODE HERE...
-
+const deathStar= (capacity, crew)=> {
+  return capacity.bind(crew);
+};
 
 
 // *************
@@ -103,7 +113,11 @@ function large() {
 // The closure function will return the combined value of assets and liabilities.
 
 // CODE HERE...
-
+const accountingOffice= (assets)=> {
+  return function(liabilities){
+    return assets + liabilities;
+  }
+};
 
 
 // *************
@@ -128,7 +142,30 @@ function large() {
 // };
 
 // CODE HERE...
+// const forgetter= (name)=> {
+//   return function rememberall(item){
+//     let remembered= [];
+//     remembered.push(item);
+//
+//     return {
+//       name: name,
+//       remember: remembered
+//     }
+//   };
+//   console.log(remembered);
+// };
 
+const forgetter= (name)=> {
+  itemsList = {
+    name: name,
+    remember: []
+  };
+
+  return function rememberall(item) {
+    itemsList.remember.push(item);
+    return itemsList;
+  };
+};
 
 
 // *************
@@ -156,3 +193,26 @@ function large() {
 // NOTE: Neither hunger nor danger should be able to exceed 100 or drop below 0.
 
 // CODE HERE...
+const frodo= (startingHungerValue, startingDangerValue)=> {
+  let hunger= startingHungerValue;
+  let danger= startingDangerValue;
+
+  return {
+    dinnerOverFire: function(){
+      hunger-=25;
+      danger+=40;
+      return {
+        hunger: hunger >= 0 ? hunger : 0,
+        danger: danger <= 100? danger : 100
+      };
+    },
+    hidingInBush: function(){
+      hunger+=35;
+      danger-=20;
+      return {
+        hunger: hunger <= 100 ? hunger : 100,
+        danger: danger >= 0 ? danger : 0
+      };
+    }
+  };
+};
