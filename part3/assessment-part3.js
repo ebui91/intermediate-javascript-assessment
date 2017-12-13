@@ -13,6 +13,10 @@
 // return the result of your updateAnimal invocation
 
 // CODE HERE...
+const callBinding= (magicAnimals, updateAnimal, id)=> {
+  let animalFound= magicAnimals.filter(animal=> animal.id === id)[0];
+  return updateAnimal.apply(animalFound, ['Trogdor']);
+};
 
 
 
@@ -28,7 +32,10 @@
 // return the result of your updateAnimal invocation
 
 // CODE HERE...
-
+const applyBinding= (magicAnimals, updateAnimal, id)=> {
+  let animalFound= magicAnimals.filter(animal=> animal.id === id)[0];
+  return updateAnimal.apply(animalFound, ['being majestic', 'eating rainbows']);
+};
 
 
 // *************
@@ -48,7 +55,14 @@
 var foo;
 
 // CODE HERE...
+const promiseMe= ($q)=> {
+  let waiting= $q.defer();
+  setTimeout(()=> {
+    waiting.resolve(foo= 'bar');
+  }, 20);
 
+  return waiting.promise;
+};
 
 
 // *************
@@ -64,3 +78,19 @@ var foo;
 // and then resolve the array as you complete your promise.
 
 // CODE HERE...
+const emailList= ($q, $http)=> {
+  let waiting= $q.defer();
+
+  $http
+    .get("/api/users")
+    .then(response => {
+      let arr= [];
+      response.data.forEach(user=> {
+        arr.push(user.email);
+      });
+      waiting.resolve(arr);
+    })
+    .catch(console.log);
+
+  return waiting.promise;
+}
